@@ -1,5 +1,8 @@
 {
   "name": "Forecast",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }

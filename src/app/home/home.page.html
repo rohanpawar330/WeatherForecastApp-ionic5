@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Weather Forecsat
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,60 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large"> Weather Forecsat</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-item>
+    <ion-label>Country</ion-label>
+    <ion-select placeholder="Country" [(ngModel)]="selectedCountry" (ionChange)="selectCountry()">
+      <ion-select-option value="{{item?.country}}" *ngFor="let item of countryList">{{item?.country}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-item *ngIf="selectedCountry">
+    <ion-label>State</ion-label>
+    <ion-select placeholder="State" [(ngModel)]="selectedState" (ionChange)="selectState()">
+      <ion-select-option value="{{item?.state}}" *ngFor="let item of stateList">{{item?.state}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="selectedState">
+    <ion-label>City</ion-label>
+    <ion-select placeholder="City" [(ngModel)]="selectedCity" (ionChange)="getforecastData()">
+      <ion-select-option value="{{item?.city}}" *ngFor="let item of cityList">{{item?.city}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-card *ngIf="!errMsg && forecastData">
+    <ion-card-header class="section">
+      <div>
+        <ion-card-title>
+          {{forecastData?.city}}
+        </ion-card-title>
+        <ion-card-subtitle>{{forecastData?.state}}, {{forecastData?.country}}
+
+        </ion-card-subtitle>
+        <div class="padding-top5">Updated on:</div>
+        <div class="padding-top5">{{forecastData?.current?.weather?.ts | date:'EEEE, MMMM d, y, hh:mm a'}}</div>
+      </div>
+      <div class="temp">{{forecastData?.current?.weather?.tp}} 'C
+      </div>
+    </ion-card-header>
+
+    <ion-card-content class="section">
+      <div class="weather-details">
+        <ion-label>Air Quality: {{forecastData?.current?.pollution?.aqius}}</ion-label>
+        <br>
+        <ion-label>Humidity: {{forecastData?.current?.weather?.hu}}%</ion-label>
+        <br>
+        <ion-label>Wind Speed: {{forecastData?.current?.weather?.ws}} (m/s)</ion-label>
+      </div>
+      <img class="img-size" *ngIf="forecastData?.current?.weather?.ic"
+        src="assets/imgs/{{forecastData?.current?.weather?.ic}}.png" onError="this.src='assets/imgs/abc.png'" />
+    </ion-card-content>
+  </ion-card>
+  <div *ngIf="errMsg" class="error-msg">{{errMsg}}</div>
 </ion-content>
