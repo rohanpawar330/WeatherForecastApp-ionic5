@@ -1,12 +1,13 @@
 .temp {
   background: #1ebf7d;
-  display: grid;
-  place-content: center;
+  display: flex;
   border-radius: 50%;
   color: white;
   width: 50px;
+  justify-content: center;
   height: 50px;
   box-shadow: 0px 0px 7px 4px #d8d2d2;
+  align-items: center;
 }
 .section {
   display: flex;
